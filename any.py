@@ -1,6 +1,9 @@
 import customtkinter as ctk
 from PIL import Image, ImageTk
 
+# اكرم
+
+
 # النص
 x = '''جمهورية العراق 
 هيئة النزاهة الاتحادية 
