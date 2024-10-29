@@ -190,14 +190,14 @@ def create_responsive_gui():
     image = Image.open('img/noun-submit-6735931-FFFFFF.png')
     icon = ImageTk.PhotoImage(image)
 
-    submit_btn = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='إرسال')
+    submit_btn = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='')
     submit_btn.grid(row=6, column=0, columnspan=1, padx=68, pady=27.5, sticky="w")
 
     # Finish Button
     image = Image.open('img/noun-7211434-FFFFFF.png')
     icon = ImageTk.PhotoImage(image)
 
-    finprin_btn = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='إنهاء')
+    finprin_btn = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='')
     finprin_btn.grid(row=6, column=1, columnspan=1, padx=68, pady=27.5, sticky="e")
 
     # Configure grid weights for responsive resizing
