@@ -93,8 +93,10 @@ def create_responsive_gui():
                                text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
         label2.pack(padx=80, pady=15)
 
-        radio(master=main_frame, text='الأسم', hover_color='white', variable=y, value=0, pady=10, row=3, column=2, padx=0)
+        radio(master=main_frame, text='الأسم', hover_color='white', variable=y, value=0, pady=10, row=3, column=2, padx=68)
         radio(master=main_frame, text='رقم الهوية', hover_color='white', variable=y, value=1, pady=10, row=4, column=2, padx=0)
+
+        create_input_field('البحث','img/noun-6560269-FFFFFF.png',68,0,3)
 
 
         
@@ -115,7 +117,6 @@ def create_responsive_gui():
                                text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
         label2.pack(padx=80, pady=15)
 
-        create_input_field('البحث','img/noun-7211434-FFFFFF.png',4, 0)
 
     def sub_frame():
 
