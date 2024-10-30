@@ -16,8 +16,7 @@ ctk.set_default_color_theme("blue")
 def create_responsive_gui():
     # Create the main window
     root = ctk.CTk()
-    root.title("Responsive CustomTkinter GUI")
-    root.geometry("800x600")  # Set a default size
+    root.title("Responsive CustomTkinter GUI") 
 
     def exit_fullscreen(event):
         root.attributes('-fullscreen', False)
@@ -34,17 +33,73 @@ def create_responsive_gui():
         for widget in main_frame.winfo_children():
             widget.destroy()  # Clear previous content
 
-        if tab_name == "التبويب الأول":
+        if tab_name == "الاستعلامات":
             inquiries()
-        elif tab_name == "التبويب الثاني":
-            label = ctk.CTkLabel(main_frame, text="هذا هو المحتوى في التبويب الثاني")
-            label.pack(pady=20)
-        elif tab_name == "التبويب الثالث":
-            label = ctk.CTkLabel(main_frame, text="هذا هو المحتوى في التبويب الثالث")
-            label.pack(pady=20)
+        elif tab_name == "البحث":
+            serch()
+        elif tab_name == "البيانات":
+            data()
 
     def inquiries():
         # Create a sub frame for inquiries
+        sub_frame()
+
+        # Create a frame for the inquiries section
+        inquiry_frame = ctk.CTkFrame(main_frame, fg_color="#44689D", corner_radius=30)
+        inquiry_frame.grid(row=1, column=0, columnspan=3, padx=55, pady=15)
+
+        label2 = ctk.CTkLabel(inquiry_frame, text="الأستعلامات",
+                               text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
+        label2.pack(padx=80, pady=15)
+
+        # Create input fields
+        create_input_field("الأسم", 'img/noun-6560269-FFFFFF.png', 2, 1)
+        create_input_field("الوظيفة", 'img/noun-profession-6346513-FFFFFF.png', 2, 0)
+        create_input_field("رقم الهوية", 'img/noun-name-1946973-FFFFFF.png', 3, 1)
+        create_input_field("تاريخ وجهة الاصدار", 'img/noun-name-1946973-FFFFFF.png', 3, 0)
+        create_input_field("صفة المراجعة", 'img/noun-contact-details-6046708-FFFFFF (1).png', 4, 0, colspan=3)
+        create_input_field("جهة المراجعة", 'img/noun-name-card-1906376-FFFFFF.png', 5, 0, colspan=3)
+
+        # Submit Button
+        create_button("img/noun-submit-6735931-FFFFFF.png", "", 6, 0)
+        # Finish Button
+        create_button("img/noun-7211434-FFFFFF.png", "", 6, 1)
+
+        # Configure grid weights for responsive resizing
+        main_frame.grid_columnconfigure(0, weight=1)
+        main_frame.grid_columnconfigure(1, weight=1)
+
+        # Configure sub_frame grid weights
+
+
+
+
+
+    def serch():
+        sub_frame()
+
+
+        inquiry_frame = ctk.CTkFrame(main_frame, fg_color="#44689D", corner_radius=30)
+        inquiry_frame.grid(row=1, column=0, columnspan=3, padx=55, pady=15)
+
+        label2 = ctk.CTkLabel(inquiry_frame, text="البحث",
+                               text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
+        label2.pack(padx=80, pady=15)
+        
+
+    def data():
+        sub_frame()
+
+        inquiry_frame = ctk.CTkFrame(main_frame, fg_color="#44689D", corner_radius=30)
+        inquiry_frame.grid(row=1, column=0, columnspan=3, padx=55, pady=15)
+
+        label2 = ctk.CTkLabel(inquiry_frame, text="البيانات",
+                               text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
+        label2.pack(padx=80, pady=15)
+
+
+    def sub_frame():
+
         sub_frame = ctk.CTkFrame(main_frame, fg_color="#FFFFFF", height=125, corner_radius=20)
         sub_frame.grid(row=0, column=0, columnspan=30, padx=15, pady=10, sticky="nsew")
 
@@ -64,35 +119,11 @@ def create_responsive_gui():
         label = ctk.CTkLabel(sub_frame, text=x, text_color="black", font=("Arial", 20, "bold"), justify="right")
         label.grid(row=0, column=1, padx=5, pady=5)
 
-        # Create a frame for the inquiries section
-        inquiry_frame = ctk.CTkFrame(main_frame, fg_color="#44689D", corner_radius=30)
-        inquiry_frame.grid(row=1, column=0, columnspan=3, padx=55, pady=15)
-
-        label2 = ctk.CTkLabel(inquiry_frame, text="الأستعلامات",
-                               text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
-        label2.pack(padx=80, pady=15)
-
-        # Create input fields
-        create_input_field("الأسم", 'img/noun-6560269-FFFFFF.png', 2, 1)
-        create_input_field("الوظيفة", 'img/noun-profession-6346513-FFFFFF.png', 2, 0)
-        create_input_field("رقم الهوية", 'img/noun-name-1946973-FFFFFF.png', 3, 1)
-        create_input_field("تاريخ وجهة الاصدار", 'img/noun-name-1946973-FFFFFF.png', 3, 0)
-        create_input_field("صفة المراجعة", 'img/noun-contact-details-6046708-FFFFFF (1).png', 4, 0, colspan=3)
-        create_input_field("جهة المراجعة", 'img/noun-name-card-1906376-FFFFFF.png', 5, 0, colspan=3)
-
-        # Submit Button
-        create_button("img/noun-submit-6735931-FFFFFF.png", "تقديم", 6, 0)
-        # Finish Button
-        create_button("img/noun-7211434-FFFFFF.png", "إنهاء", 6, 1)
-
-        # Configure grid weights for responsive resizing
-        main_frame.grid_columnconfigure(0, weight=1)
-        main_frame.grid_columnconfigure(1, weight=1)
-
-        # Configure sub_frame grid weights
         sub_frame.grid_columnconfigure(0, weight=0)
         sub_frame.grid_columnconfigure(1, weight=1)
         sub_frame.grid_columnconfigure(2, weight=0)
+
+
 
     def create_input_field(label_text, icon_path, row, column, colspan=1):
         # Create input field with icon
@@ -123,17 +154,17 @@ def create_responsive_gui():
         button.grid(row=row, column=column, columnspan=1, padx=68, pady=27.5, sticky="ew")
 
     # Create tab buttons
-    tab1_button = ctk.CTkButton(tab_frame, text="التبويب الأول", command=lambda: show_tab("التبويب الأول"))
+    tab1_button = ctk.CTkButton(tab_frame, text="الاستعلامات", command=lambda: show_tab("الاستعلامات"))
     tab1_button.pack(pady=10, padx=10)
 
-    tab2_button = ctk.CTkButton(tab_frame, text="التبويب الثاني", command=lambda: show_tab("التبويب الثاني"))
+    tab2_button = ctk.CTkButton(tab_frame, text="البحث", command=lambda: show_tab("البحث"))
     tab2_button.pack(pady=10, padx=10)
 
-    tab3_button = ctk.CTkButton(tab_frame, text="التبويب الثالث", command=lambda: show_tab("التبويب الثالث"))
+    tab3_button = ctk.CTkButton(tab_frame, text="البيانات", command=lambda: show_tab("البيانات"))
     tab3_button.pack(pady=10, padx=10)
 
     # Show the first tab by default
-    show_tab("التبويب الأول")
+    show_tab("الاستعلامات")
 
     # Start the application
     root.mainloop()
