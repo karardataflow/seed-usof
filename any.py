@@ -85,6 +85,14 @@ def create_responsive_gui():
         label2 = ctk.CTkLabel(inquiry_frame, text="البحث",
                                text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
         label2.pack(padx=80, pady=15)
+
+
+        
+    
+    def radio (master,text,value,row,column,columnspan=1):
+        radio_btn1 = ctk.CTkRadioButton (master=master , text=text, value=value)
+        radio_btn1.grid(row=row,column=column, columnspan=columnspan)
+
         
 
     def data():
