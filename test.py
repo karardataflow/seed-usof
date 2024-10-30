@@ -1,43 +1,36 @@
 import customtkinter as ctk
 
-# إعداد نافذة التطبيق
-app = ctk.CTk()
+def show_selection():
+    selection = radio_var.get()
+    label.config(text=f"You selected: {selection}")
 
-# إنشاء إطار لعلامات التبويب العمودية
-tab_frame = ctk.CTkFrame(app)
-tab_frame.pack(side="left", fill="y", padx=20, pady=20)
+# إنشاء نافذة التطبيق
+ctk.set_appearance_mode("light")  # يمكنك تغيير الوضع إلى "dark" إذا أردت
+ctk.set_default_color_theme("blue")
 
-# إطار لمحتوى التبويبات
-content_frame = ctk.CTkFrame(app)
-content_frame.pack(side="right", fill="both", expand=True)
+root = ctk.CTk()
+root.title("CustomTkinter Radio Button Example")
 
-# وظيفة لتغيير المحتوى عند الضغط على زر
-def show_tab(tab_name):
-    for widget in content_frame.winfo_children():
-        widget.destroy()  # مسح المحتوى السابق
-    
-    if tab_name == "التبويب الأول":
-        label = ctk.CTkLabel(content_frame, text="هذا هو المحتوى في التبويب الأول")
-        label.pack(pady=20)
-    elif tab_name == "التبويب الثاني":
-        label = ctk.CTkLabel(content_frame, text="هذا هو المحتوى في التبويب الثاني")
-        label.pack(pady=20)
-    elif tab_name == "التبويب الثالث":
-        label = ctk.CTkLabel(content_frame, text="هذا هو المحتوى في التبويب الثالث")
-        label.pack(pady=20)
+# متغير لتخزين قيمة الزر المختار
+radio_var = ctk.StringVar(value="Option 1")
 
-# إضافة أزرار للتبويبات العمودية
-tab1_button = ctk.CTkButton(tab_frame, text="التبويب الأول", command=lambda: show_tab("التبويب الأول"))
-tab1_button.pack(pady=10, padx=10)
+# إنشاء إطار لترتيب العناصر
+frame = ctk.CTkFrame(root)
+frame.pack(padx=20, pady=20)
 
-tab2_button = ctk.CTkButton(tab_frame, text="التبويب الثاني", command=lambda: show_tab("التبويب الثاني"))
-tab2_button.pack(pady=10, padx=10)
+# إنشاء أزرار راديو
+radio1 = ctk.CTkRadioButton(frame, text="Option 1", variable=radio_var, value="Option 1", command=show_selection)
+radio2 = ctk.CTkRadioButton(frame, text="Option 2", variable=radio_var, value="Option 2", command=show_selection)
+radio3 = ctk.CTkRadioButton(frame, text="Option 3", variable=radio_var, value="Option 3", command=show_selection)
 
-tab3_button = ctk.CTkButton(tab_frame, text="التبويب الثالث", command=lambda: show_tab("التبويب الثالث"))
-tab3_button.pack(pady=10, padx=10)
+# إنشاء تسمية لعرض الاختيار
+label = ctk.CTkLabel(root, text="You selected: None")
 
-# إظهار التبويب الأول بشكل افتراضي
-show_tab("التبويب الأول")
+# ترتيب العناصر في نافذة التطبيق
+label.pack(anchor='e', padx=20)  # الاسم على اليسار
+radio1.pack(anchor='e')  # أزرار الراديو على اليمين
+radio2.pack(anchor='e')
+radio3.pack(anchor='e')
 
-# تشغيل التطبيق
-app.mainloop()
+# تشغيل حلقة الأحداث
+root.mainloop()

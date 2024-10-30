@@ -93,12 +93,14 @@ def create_responsive_gui():
                                text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
         label2.pack(padx=80, pady=15)
 
-        radio(master=main_frame, text='الأسم', hover_color='red', variable=y, value=0, pady=10, row=3, column=2, padx=0)
-        radio(master=main_frame, text='رقم الهوية', hover_color='red', variable=y, value=1, pady=10, row=4, column=2, padx=0)
+        radio(master=main_frame, text='الأسم', hover_color='white', variable=y, value=0, pady=10, row=3, column=2, padx=0)
+        radio(master=main_frame, text='رقم الهوية', hover_color='white', variable=y, value=1, pady=10, row=4, column=2, padx=0)
+
+
         
     
     def radio(master,text,value,row,column, hover_color, variable, pady, padx, columnspan=1):
-        radio_btn1 = ctk.CTkRadioButton(master=master , text=text, hover_color=hover_color, variable=variable, value=value)
+        radio_btn1 = ctk.CTkRadioButton(master=master , text=text, hover_color=hover_color, variable=variable, value=value, command=rad_bot_comand)
         radio_btn1.grid(pady=pady, padx=padx, row=row, column=column, columnspan=columnspan)
 
         
@@ -113,6 +115,7 @@ def create_responsive_gui():
                                text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
         label2.pack(padx=80, pady=15)
 
+        create_input_field('البحث','img/noun-7211434-FFFFFF.png',4, 0)
 
     def sub_frame():
 
