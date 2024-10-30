@@ -1,11 +1,15 @@
 import customtkinter as ctk
 from PIL import Image, ImageTk
 
+from tkinter import IntVar
+
 # نص ثابت
 x = '''جمهورية العراق 
 هيئة النزاهة الاتحادية 
 دائرة التحقيقات 
 مديرية تحقيق البصرة'''
+
+
 
 
 # Initialize CustomTkinter
@@ -17,6 +21,8 @@ def create_responsive_gui():
     # Create the main window
     root = ctk.CTk()
     root.title("Responsive CustomTkinter GUI") 
+
+    y = IntVar()
 
     def exit_fullscreen(event):
         root.attributes('-fullscreen', False)
@@ -78,6 +84,7 @@ def create_responsive_gui():
     def serch():
         sub_frame()
 
+        
 
         inquiry_frame = ctk.CTkFrame(main_frame, fg_color="#44689D", corner_radius=30)
         inquiry_frame.grid(row=1, column=0, columnspan=3, padx=55, pady=15)
@@ -86,18 +93,19 @@ def create_responsive_gui():
                                text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
         label2.pack(padx=80, pady=15)
 
-
+        radio(master=main_frame, text='الأسم', hover_color='red', variable=y, value=0, pady=10, row=3, column=2, padx=0)
+        radio(master=main_frame, text='رقم الهوية', hover_color='red', variable=y, value=1, pady=10, row=4, column=2, padx=0)
         
     
-    def radio (master,text,value,row,column,columnspan=1):
-        radio_btn1 = ctk.CTkRadioButton (master=master , text=text, value=value)
-        radio_btn1.grid(row=row,column=column, columnspan=columnspan)
+    def radio(master,text,value,row,column, hover_color, variable, pady, padx, columnspan=1):
+        radio_btn1 = ctk.CTkRadioButton(master=master , text=text, hover_color=hover_color, variable=variable, value=value)
+        radio_btn1.grid(pady=pady, padx=padx, row=row, column=column, columnspan=columnspan)
 
         
 
     def data():
         sub_frame()
-
+        
         inquiry_frame = ctk.CTkFrame(main_frame, fg_color="#44689D", corner_radius=30)
         inquiry_frame.grid(row=1, column=0, columnspan=3, padx=55, pady=15)
 
@@ -160,6 +168,14 @@ def create_responsive_gui():
         icon = ImageTk.PhotoImage(Image.open(icon_path))
         button = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text=button_text)
         button.grid(row=row, column=column, columnspan=1, padx=68, pady=27.5, sticky="ew")
+
+
+
+
+    def rad_bot_comand():
+        print(y.get)
+
+
 
     # Create tab buttons
     tab1_button = ctk.CTkButton(tab_frame, text="الاستعلامات", command=lambda: show_tab("الاستعلامات"))
