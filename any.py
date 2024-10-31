@@ -194,7 +194,12 @@ def create_responsive_gui():
     
     
     def bot_comand():
+        global top
         top = ctk.CTkToplevel()
+        top.title('Data')
+
+        tabel = Table(top, dataframe=df)
+        tabel.show()
 
 
     # Create tab buttons
