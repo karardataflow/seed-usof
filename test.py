@@ -1,36 +1,27 @@
 import customtkinter as ctk
+from pandastable import Table
+import pandas as pd
 
-def show_selection():
-    selection = radio_var.get()
-    label.config(text=f"You selected: {selection}")
+# قم بإنشاء بيانات كـ DataFrame للاختبار
+data = {
+    "الاسم": ["علي", "أحمد", "مريم"],
+    "العمر": [25, 30, 22],
+    "المدينة": ["بغداد", "البصرة", "أربيل"]
+}
+df = pd.DataFrame(data)
 
-# إنشاء نافذة التطبيق
-ctk.set_appearance_mode("light")  # يمكنك تغيير الوضع إلى "dark" إذا أردت
-ctk.set_default_color_theme("blue")
+# إعداد CustomTkinter window
+app = ctk.CTk()
+app.geometry("600x400")
+app.title("عرض البيانات باستخدام Pandastable")
 
-root = ctk.CTk()
-root.title("CustomTkinter Radio Button Example")
+# إعداد إطار لجدول البيانات
+frame = ctk.CTkFrame(app)
+frame.pack(fill="both", expand=True)
 
-# متغير لتخزين قيمة الزر المختار
-radio_var = ctk.StringVar(value="Option 1")
+# استخدام pandastable لعرض DataFrame في الجدول
+table = Table(frame, dataframe=df)
+table.show()
 
-# إنشاء إطار لترتيب العناصر
-frame = ctk.CTkFrame(root)
-frame.pack(padx=20, pady=20)
-
-# إنشاء أزرار راديو
-radio1 = ctk.CTkRadioButton(frame, text="Option 1", variable=radio_var, value="Option 1", command=show_selection)
-radio2 = ctk.CTkRadioButton(frame, text="Option 2", variable=radio_var, value="Option 2", command=show_selection)
-radio3 = ctk.CTkRadioButton(frame, text="Option 3", variable=radio_var, value="Option 3", command=show_selection)
-
-# إنشاء تسمية لعرض الاختيار
-label = ctk.CTkLabel(root, text="You selected: None")
-
-# ترتيب العناصر في نافذة التطبيق
-label.pack(anchor='e', padx=20)  # الاسم على اليسار
-radio1.pack(anchor='e')  # أزرار الراديو على اليمين
-radio2.pack(anchor='e')
-radio3.pack(anchor='e')
-
-# تشغيل حلقة الأحداث
-root.mainloop()
+# بدء التطبيق
+app.mainloop()

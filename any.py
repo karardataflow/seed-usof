@@ -1,6 +1,8 @@
 import customtkinter as ctk
 from PIL import Image, ImageTk
-
+import customtkinter as ctk
+from pandastable import Table
+import pandas as pd
 from tkinter import IntVar
 
 # نص ثابت
@@ -79,10 +81,16 @@ def create_responsive_gui():
 
 
 
-
+    data = {
+        "الاسم": ["علي", "أحمد", "مريم"],
+        "العمر": [25, 30, 22],
+        "المدينة": ["بغداد", "البصرة", "أربيل"]
+    }
+    df = pd.DataFrame(data)
 
     def serch():
         sub_frame()
+
 
         
 
@@ -96,10 +104,14 @@ def create_responsive_gui():
         radio(master=main_frame, text='الأسم', hover_color='white', variable=y, value=0, pady=10, row=3, column=2, padx=68)
         radio(master=main_frame, text='رقم الهوية', hover_color='white', variable=y, value=1, pady=10, row=4, column=2, padx=0)
 
-        create_input_field('البحث','img/noun-6560269-FFFFFF.png',68,0,3)
+        create_input_field('البحث','img/noun-6560269-FFFFFF.png',5,0,3,)
+
+        icon = ImageTk.PhotoImage(Image.open('img/noun-6560269-FFFFFF.png'))
+        button = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='',command=bot_comand)
+        button.grid(row=6, column=1, columnspan=3, padx=68, pady=27.5, sticky="ew")
 
 
-        
+
     
     def radio(master,text,value,row,column, hover_color, variable, pady, padx, columnspan=1):
         radio_btn1 = ctk.CTkRadioButton(master=master , text=text, hover_color=hover_color, variable=variable, value=value, command=rad_bot_comand)
@@ -179,6 +191,10 @@ def create_responsive_gui():
     def rad_bot_comand():
         print(y.get)
 
+    
+    
+    def bot_comand():
+        top = ctk.CTkToplevel()
 
 
     # Create tab buttons
