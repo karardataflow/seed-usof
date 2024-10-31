@@ -1,27 +1,30 @@
-import customtkinter as ctk
-from pandastable import Table
-import pandas as pd
+import sys
+import plotly.express as px
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from PyQt6.QtWebEngineWidgets import QWebEngineView
 
-# قم بإنشاء بيانات كـ DataFrame للاختبار
-data = {
-    "الاسم": ["علي", "أحمد", "مريم"],
-    "العمر": [25, 30, 22],
-    "المدينة": ["بغداد", "البصرة", "أربيل"]
-}
-df = pd.DataFrame(data)
+# إنشاء بيانات الرسم باستخدام Plotly
+df = px.data.iris()  # بيانات عينة لرسم بياني
+fig = px.scatter(df, x="sepal_width", y="sepal_length", color="species")
 
-# إعداد CustomTkinter window
-app = ctk.CTk()
-app.geometry("600x400")
-app.title("عرض البيانات باستخدام Pandastable")
+# تحويل الرسم إلى HTML
+plot_html = fig.to_html(include_plotlyjs='cdn', full_html=False)
 
-# إعداد إطار لجدول البيانات
-frame = ctk.CTkFrame(app)
-frame.pack(fill="both", expand=True)
+# إعداد واجهة PyQt6 لعرض الرسم
+app = QApplication(sys.argv)
+window = QMainWindow()
+window.setWindowTitle("Plotly with PyQt6")
 
-# استخدام pandastable لعرض DataFrame في الجدول
-table = Table(frame, dataframe=df)
-table.show()
+# إعداد QWebEngineView لعرض HTML الخاص بالرسم
+web_view = QWebEngineView()
+web_view.setHtml(plot_html)
 
-# بدء التطبيق
-app.mainloop()
+# إعداد التخطيط لعرض QWebEngineView
+central_widget = QWidget()
+layout = QVBoxLayout(central_widget)
+layout.addWidget(web_view)
+
+window.setCentralWidget(central_widget)
+window.resize(800, 600)
+window.show()
+sys.exit(app.exec())
