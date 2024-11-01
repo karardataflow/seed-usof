@@ -1,30 +1,65 @@
-import sys
-import plotly.express as px
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
-from PyQt6.QtWebEngineWidgets import QWebEngineView
+import pdfkit
 
-# إنشاء بيانات الرسم باستخدام Plotly
-df = px.data.iris()  # بيانات عينة لرسم بياني
-fig = px.scatter(df, x="sepal_width", y="sepal_length", color="species")
+# Set the path to wkhtmltopdf
+config = pdfkit.configuration(wkhtmltopdf=r'C:\Users\rf\Desktop\wkhtmltopdf\bin\wkhtmltopdf.exe')
 
-# تحويل الرسم إلى HTML
-plot_html = fig.to_html(include_plotlyjs='cdn', full_html=False)
+# Reviewer data
+reviewer_name = 'أحمد علي'
+profession = 'مراجع مالي'
+id_number = '123456'
+issue_date = '2024-11-01'
+issue_place = 'بغداد'
+review_status = 'مكتملة'
+reviewing_entity = 'وزارة المالية'
+birth_date = '1990-05-15'  # تاريخ الميلاد
+address = 'شارع 123، بغداد'  # العنوان
+phone_number = '07123456789'  # رقم الهاتف
+email = 'ahmed.ali@example.com'  # البريد الإلكتروني
 
-# إعداد واجهة PyQt6 لعرض الرسم
-app = QApplication(sys.argv)
-window = QMainWindow()
-window.setWindowTitle("Plotly with PyQt6")
+# Set up HTML content
+html_content = f"""
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>بيانات المراجع</title>
+    <style>
+        body {{
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+        }}
+    </style>
+</head>
+<body>
+    <h1>معلومات المراجع</h1>
+    <p>اسم المراجع: {reviewer_name}</p>
+    <p>المهنة: {profession}</p>
+    <p>رقم الهوية: {id_number}</p>
+    <p>تاريخ الإصدار: {issue_date}</p>
+    <p>مكان الإصدار: {issue_place}</p>
+    <p>حالة المراجعة: {review_status}</p>
+    <p>الجهة المراجعة: {reviewing_entity}</p>
+    <p>تاريخ الميلاد: {birth_date}</p>
+    <p>العنوان: {address}</p>
+    <p>رقم الهاتف: {phone_number}</p>
+    <p>البريد الإلكتروني: {email}</p>
+</body>
+</html>
+"""
 
-# إعداد QWebEngineView لعرض HTML الخاص بالرسم
-web_view = QWebEngineView()
-web_view.setHtml(plot_html)
+# PDF options
+options = {
+    'no-stop-slow-scripts': '',
+    'debug-javascript': '',
+    'disable-smart-shrinking': '',
+    'enable-local-file-access': '',
+    'zoom': '1.3',
+    'disable-javascript': '',
+}
 
-# إعداد التخطيط لعرض QWebEngineView
-central_widget = QWidget()
-layout = QVBoxLayout(central_widget)
-layout.addWidget(web_view)
-
-window.setCentralWidget(central_widget)
-window.resize(800, 600)
-window.show()
-sys.exit(app.exec())
+# Generate PDF from HTML content
+try:
+    pdfkit.from_string(html_content, 'reviewer_data.pdf', configuration=config, options=options)
+    print("PDF created successfully.")
+except Exception as e:
+    print("An error occurred while creating the PDF:", e)

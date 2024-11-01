@@ -37,6 +37,7 @@ def create_responsive_gui():
 
     main_frame = ctk.CTkFrame(root, fg_color="#1D3C6B")
     main_frame.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
+    
 
     def mack_data_frame():
         df = pd.read_csv('saved_data.csv')
@@ -57,6 +58,8 @@ def create_responsive_gui():
         elif tab_name == "البيانات":
             inquiries()
             bot_comand()
+        elif tab_name == "التعديل":
+            edit()
 
     def inquiries():
         # Create a sub frame for inquiries
@@ -111,6 +114,24 @@ def create_responsive_gui():
         icon = ImageTk.PhotoImage(Image.open('img/noun-6560269-FFFFFF.png'))
         button = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='',command=bot_comand_serch)
         button.grid(row=6, column=1, columnspan=3, padx=68, pady=27.5, sticky="ew")
+
+
+    def edit():
+        sub_frame()
+        
+        inquiry_frame = ctk.CTkFrame(main_frame, fg_color="#44689D", corner_radius=30)
+        inquiry_frame.grid(row=1, column=0, columnspan=3, padx=55, pady=15)
+
+        label2 = ctk.CTkLabel(inquiry_frame, text="التعديل",
+                               text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
+        label2.pack(padx=80, pady=15)
+
+        create_input_field('البحث','img/noun-6560269-FFFFFF.png',5,0,3,)
+
+        icon = ImageTk.PhotoImage(Image.open('img/noun-6560269-FFFFFF.png'))
+        button = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='',command=bot_comand_edit)
+        button.grid(row=6, column=1, columnspan=3, padx=68, pady=27.5, sticky="ew")
+        
 
 
 
@@ -207,7 +228,73 @@ def create_responsive_gui():
             tabel = Table(top, dataframe=results)   
             tabel.show()
 
+
+    def create_input_field_to_edit(label_text, icon_path, row, column, valio,  colspan=1):
+        # Create input field with icon
+        icon = ImageTk.PhotoImage(Image.open(icon_path))
+        frame = ctk.CTkFrame(master=main_frame, height=40, corner_radius=10, fg_color='#44689D')
+        frame.grid(row=row, column=column, columnspan=colspan, padx=68, pady=55/2, sticky="ew")
+        label = ctk.CTkLabel(master=frame, text=label_text, bg_color="#44689D", width=120, image=icon, compound="right", font=("Arial", 20, "bold"))
+        label.pack(padx=10, side="right")
+        entry = ctk.CTkEntry(
+            master=frame,
+            fg_color='#ffffff',
+            bg_color='white',
+            border_color='#ffffff',
+            width=380,
+            height=40,
+            text_color="black",
+            font=("Arial", 16),
+            justify="right",
+        )
+        entry.insert(0, valio)
+        entry.pack(fill=ctk.X, expand=True)
+        input_fields[label_text] = entry
     
+    
+    def bot_comand_edit():
+        search_value = input_fields['البحث'].get()  # الحصول على قيمة البحث
+
+        # قراءة البيانات من ملف CSV
+        df = pd.read_csv('saved_data.csv')
+
+        results = df[df['الأسم'].str.contains(search_value, na=False)]
+
+
+        if len(results) == 1:
+            # استخراج القيم الفردية من السطر
+            row = results.iloc[0]
+    
+            # إنشاء الحقول مع القيم الموجودة
+            create_input_field_to_edit("الأسم", 'img/noun-6560269-FFFFFF.png', 2, 1, valio=row['الأسم'])
+            create_input_field_to_edit("الوظيفة", 'img/noun-profession-6346513-FFFFFF.png', 2, 0, valio=row['الوظيفة'])
+            create_input_field_to_edit("رقم الهوية", 'img/noun-name-1946973-FFFFFF.png', 3, 1, valio=row["رقم الهوية"])
+            create_input_field_to_edit("تاريخ وجهة الاصدار", 'img/noun-name-1946973-FFFFFF.png', 3, 0, valio=row["تاريخ وجهة الاصدار"])
+            create_input_field_to_edit("صفة المراجعة", 'img/noun-contact-details-6046708-FFFFFF (1).png', 4, 0, valio=row["صفة المراجعة"], colspan=3)
+            create_input_field_to_edit("جهة المراجعة", 'img/noun-name-card-1906376-FFFFFF.png', 5, 0, valio=row["جهة المراجعة"], colspan=3)
+            
+            icon = ImageTk.PhotoImage(Image.open('img/noun-6560269-FFFFFF.png'))
+            button = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='',command=data_edits)
+            button.grid(row=6, column=1, columnspan=3, padx=68, pady=27.5, sticky="ew")
+
+            
+        elif len(results) > 1:
+            top = ctk.CTkToplevel()
+            top.title('Error')
+            top.attributes('-topmost', True)
+            top.geometry("500x200")
+            text = ctk.CTkLabel(master=top,text='اكتب الأسم الكامل', font=("Arial", 50))
+            text.pack(padx = 10, pady = 10, expand=True)
+            
+        else:
+            top = ctk.CTkToplevel()
+            top.title('Error')
+            top.attributes('-topmost', True)
+            top.geometry("500x200")
+            text = ctk.CTkLabel(master=top,text='لا توجد نتائج لهذا اللأسم', font=("Arial", 50))
+            text.pack(padx = 10, pady = 10, expand=True)
+
+   
     
  
 
@@ -220,6 +307,17 @@ def create_responsive_gui():
 
         # حفظ البيانات في ملف CSV
         df.to_csv("saved_data.csv", mode='a', index=False, header=not pd.io.common.file_exists("saved_data.csv"))
+
+    def data_edits():
+            search_value = input_fields['البحث'].get()
+            df = pd.read_csv('saved_data.csv')
+            results = df[df['الأسم'].str.contains(search_value, na=False)]
+            # تحديث البيانات
+            for label in input_fields.keys():
+                df.at[results.index[0], label] = input_fields[label].get()  # تعديل البيانات
+
+            # حفظ البيانات المحدثة في ملف CSV
+            df.to_csv("saved_data.csv", index=False)
 
 
 
@@ -240,8 +338,11 @@ def create_responsive_gui():
     tab2_button = ctk.CTkButton(tab_frame, text="البحث", command=lambda: show_tab("البحث"))
     tab2_button.pack(pady=10, padx=10)
 
-    tab3_button = ctk.CTkButton(tab_frame, text="البيانات", command=lambda: show_tab("البيانات"))
+    tab3_button = ctk.CTkButton(tab_frame, text="التعديل", command=lambda: show_tab("التعديل"))
     tab3_button.pack(pady=10, padx=10)
+
+    tab4_button = ctk.CTkButton(tab_frame, text="البيانات", command=lambda: show_tab("البيانات"))
+    tab4_button.pack(pady=10, padx=10)
 
     # Show the first tab by default
     show_tab("الاستعلامات")
@@ -250,4 +351,5 @@ def create_responsive_gui():
     root.mainloop()
 
 
-create_responsive_gui()
+if __name__ == '__main__':
+    create_responsive_gui()
