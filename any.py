@@ -5,13 +5,14 @@ from pandastable import Table
 import pandas as pd
 from tkinter import IntVar
 from datetime import datetime
+from test import PDFGenerator
 # نص ثابت
 x = '''جمهورية العراق 
 هيئة النزاهة الاتحادية 
 دائرة التحقيقات 
 مديرية تحقيق البصرة'''
 
-
+pdf_generator = PDFGenerator(config_path=r'C:\Users\rf\Desktop\wkhtmltopdf\bin\wkhtmltopdf.exe')
 
 
 # Initialize CustomTkinter
@@ -53,8 +54,7 @@ def create_responsive_gui():
 
         if tab_name == "الاستعلامات":
             inquiries()
-        elif tab_name == "البحث":
-            serch()
+
         elif tab_name == "البيانات":
             inquiries()
             bot_comand()
@@ -74,15 +74,15 @@ def create_responsive_gui():
         label2.pack(padx=80, pady=15)
 
         # Create input fields
-        create_input_field("الأسم", 'img/noun-6560269-FFFFFF.png', 2, 1)
-        create_input_field("الوظيفة", 'img/noun-profession-6346513-FFFFFF.png', 2, 0)
-        create_input_field("رقم الهوية", 'img/noun-name-1946973-FFFFFF.png', 3, 1)
-        create_input_field("تاريخ وجهة الاصدار", 'img/noun-name-1946973-FFFFFF.png', 3, 0)
-        create_input_field("صفة المراجعة", 'img/noun-contact-details-6046708-FFFFFF (1).png', 4, 0, colspan=3)
-        create_input_field("جهة المراجعة", 'img/noun-name-card-1906376-FFFFFF.png', 5, 0, colspan=3)
+        create_input_field("الأسم", 'img/الأسم.png', 2, 1)
+        create_input_field("الوظيفة", 'img/الوضيفه.png', 2, 0)
+        create_input_field("رقم الهوية", 'img/الرقم.png', 3, 1)
+        create_input_field("تاريخ وجهة الاصدار", 'img/الرقم.png', 3, 0)
+        create_input_field("صفة المراجعة", 'img/صفه.png', 4, 0, colspan=3)
+        create_input_field("جهة المراجعة", 'img/جهة.png', 5, 0, colspan=3)
 
         # Submit Button
-        create_button("img/noun-submit-6735931-FFFFFF.png", "", 6, 0, save_data)
+        create_button("img/SUBMET.png", "", 6, 0, save_data)
         # Finish Button
         # create_button("img/noun-7211434-FFFFFF.png", "", 6, 1)
 
@@ -96,24 +96,7 @@ def create_responsive_gui():
 
 
 
-    def serch():
-        sub_frame()
 
-        inquiry_frame = ctk.CTkFrame(main_frame, fg_color="#44689D", corner_radius=30)
-        inquiry_frame.grid(row=1, column=0, columnspan=3, padx=55, pady=15)
-
-        label2 = ctk.CTkLabel(inquiry_frame, text="البحث",
-                               text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
-        label2.pack(padx=80, pady=15)
-
-        radio(master=main_frame, text='الأسم', hover_color='white', variable=y, value=0, pady=10, row=3, column=2, padx=68)
-        radio(master=main_frame, text='رقم الهوية', hover_color='white', variable=y, value=1, pady=10, row=4, column=2, padx=0)
-
-        create_input_field('البحث','img/noun-6560269-FFFFFF.png',5,0,3,)
-
-        icon = ImageTk.PhotoImage(Image.open('img/noun-6560269-FFFFFF.png'))
-        button = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='',command=bot_comand_serch)
-        button.grid(row=6, column=1, columnspan=3, padx=68, pady=27.5, sticky="ew")
 
 
     def edit():
@@ -126,12 +109,24 @@ def create_responsive_gui():
                                text_color="#ffffff", width=300, height=70, font=("Arial", 36, "bold"))
         label2.pack(padx=80, pady=15)
 
-        create_input_field('البحث','img/noun-6560269-FFFFFF.png',5,0,3,)
+        radio(master=main_frame, text='الأسم', hover_color='white', variable=y, value=0, pady=10, row=2, column=1, padx=68)
+        radio(master=main_frame, text='رقم الهوية', hover_color='white', variable=y, value=1, pady=10, row=2, column=0, padx=0)
 
-        icon = ImageTk.PhotoImage(Image.open('img/noun-6560269-FFFFFF.png'))
+        create_input_field('البحث','img/الأسم.PNG',4,0,3,)
+
+        icon = ImageTk.PhotoImage(Image.open('img/SUBMET.png'))
         button = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='',command=bot_comand_edit)
-        button.grid(row=6, column=1, columnspan=3, padx=68, pady=27.5, sticky="ew")
+        button.grid(row=7, column=1, columnspan=3, padx=68, pady=27.5, sticky="ew")
         
+
+        icon = ImageTk.PhotoImage(Image.open('img/SUBMET.png'))
+        button = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='ptint',command=printing)
+        button.grid(row=8, column=1, columnspan=3, padx=68, pady=27.5, sticky="ew")
+
+
+        icon = ImageTk.PhotoImage(Image.open('img/SUBMET.png'))
+        button = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='delet',command=delet)
+        button.grid(row=9, column=1, columnspan=3, padx=68, pady=27.5, sticky="ew")
 
 
 
@@ -149,13 +144,13 @@ def create_responsive_gui():
         sub_frame.grid(row=0, column=0, columnspan=30, padx=15, pady=10, sticky="nsew")
 
         # Load and display images
-        img1 = Image.open("img/INV_logo.jpg").resize((120, 90), Image.LANCZOS)
+        img1 = Image.open("img/شعار النزاهة.jpg").resize((120, 90), Image.LANCZOS)
         img1_tk = ImageTk.PhotoImage(img1)
         img_label1 = ctk.CTkLabel(sub_frame, image=img1_tk, text='')
         img_label1.grid(row=0, column=2, padx=5, pady=10)
 
         img_label1.image = img1_tk  # Keep reference to avoid garbage collection
-        img2 = Image.open("img/images.png").resize((120, 120), Image.LANCZOS)
+        img2 = Image.open("img/الشعار.png").resize((120, 120), Image.LANCZOS)
         img2_tk = ImageTk.PhotoImage(img2)
         img_label2 = ctk.CTkLabel(sub_frame, image=img2_tk, text='')
         img_label2.grid(row=0, column=0, padx=5, pady=10)
@@ -201,32 +196,70 @@ def create_responsive_gui():
 
 
 
+    def printing():
+        search_value = input_fields['البحث'].get()
+        search_type = y.get()  # الحصول على نوع البحث
+        df = pd.read_csv('saved_data.csv')
+        df['رقم الهوية'] = pd.to_numeric(df['رقم الهوية'], errors='coerce')  # تحويل عمود رقم الهوية إلى أعداد صحيحة
+    
+        # البحث بناءً على نوع البحث
+        if search_type == 0:
+            results = df[df['الأسم'].str.contains(search_value, na=False)]
+        elif search_type == 1:
+            search_value = int(search_value)
+            results = df[df['رقم الهوية'] == search_value]
+    
+        if len(results) == 1:
+            row = results.iloc[0]
+            pdf_generator.generate_pdf('reviewer_data.pdf', row, open_pdf=True)
+            edit()
+        elif len(results) > 1:
+            top = ctk.CTkToplevel()
+            top.title('Error')
+            top.attributes('-topmost', True)
+            top.geometry("500x200")
+            text = ctk.CTkLabel(master=top, text='اكتب الأسم الكامل', font=("Arial", 50))
+            text.pack(padx=10, pady=10, expand=True)
+        else:
+            top = ctk.CTkToplevel()
+            top.title('Error')
+            top.attributes('-topmost', True)
+            top.geometry("500x200")
+            text = ctk.CTkLabel(master=top, text='لا توجد نتائج لهذا اللأسم', font=("Arial", 50))
+            text.pack(padx=10, pady=10, expand=True)
+    
+            edit()
+
+    def delet():
+        # الحصول على القيمة المراد البحث عنها من حقل الإدخال
+        search_value = input_fields['البحث'].get()
+        search_type = y.get()
+
+        # قراءة البيانات من ملف CSV
+        df = pd.read_csv('saved_data.csv')
+        df['رقم الهوية'] = pd.to_numeric(df['رقم الهوية'], errors='coerce')
+
+        # البحث عن الصفوف التي تحتوي على القيمة المراد حذفها
+        # وتصفية DataFrame بحيث لا يحتوي على الصفوف التي تطابق القيمة
+        if search_type == 0:
+            df = df[df['الأسم'] != search_value]
+            df.to_csv('saved_data.csv', index=False)
+
+        elif search_type == 1:
+            search_value = int(search_value)
+            df = df[df['رقم الهوية'] != search_value]
+            df.to_csv('saved_data.csv', index=False)
+
+        # إعادة كتابة الملف بدون الصفوف التي تم حذفها
+        
+
+        edit()
 
     def rad_bot_comand():
         print(y.get)
 
 
-    def bot_comand_serch():
-        search_value = input_fields['البحث'].get()  # الحصول على قيمة البحث
-        search_type = y.get()  # الحصول على نوع البحث (0 للأسم، 1 لرقم الهوية)
 
-        # قراءة البيانات من ملف CSV
-        df = pd.read_csv('saved_data.csv')
-
-        if search_type == 0:  # إذا كان الخيار هو الاسم
-            results = df[df['الأسم'].str.contains(search_value, na=False)]
-            top = ctk.CTkToplevel()
-            top.title('Serch')
-            top.attributes('-topmost', True)
-            tabel = Table(top, dataframe=results)   
-            tabel.show()
-        elif search_type == 1:  # إذا كان الخيار هو رقم الهوية
-            results = df[df['رقم الهوية'] == search_value]
-            top = ctk.CTkToplevel()
-            top.title('Serch')
-            top.attributes('-topmost', True)
-            tabel = Table(top, dataframe=results)   
-            tabel.show()
 
 
     def create_input_field_to_edit(label_text, icon_path, row, column, valio,  colspan=1):
@@ -254,28 +287,31 @@ def create_responsive_gui():
     
     def bot_comand_edit():
         search_value = input_fields['البحث'].get()  # الحصول على قيمة البحث
-
-        # قراءة البيانات من ملف CSV
+        search_type = y.get()
         df = pd.read_csv('saved_data.csv')
+        df['رقم الهوية'] = pd.to_numeric(df['رقم الهوية'], errors='coerce')
+        
+        if search_type == 0: 
 
-        results = df[df['الأسم'].str.contains(search_value, na=False)]
+            results = df[df['الأسم'].str.contains(search_value, na=False)]
 
+        elif search_type == 1:  # إذا كان الخيار هو رقم الهوية
+            search_value = int(search_value)
+            results = df[df['رقم الهوية'] == search_value]
+            results = results
 
         if len(results) == 1:
             # استخراج القيم الفردية من السطر
             row = results.iloc[0]
     
             # إنشاء الحقول مع القيم الموجودة
-            create_input_field_to_edit("الأسم", 'img/noun-6560269-FFFFFF.png', 2, 1, valio=row['الأسم'])
-            create_input_field_to_edit("الوظيفة", 'img/noun-profession-6346513-FFFFFF.png', 2, 0, valio=row['الوظيفة'])
-            create_input_field_to_edit("رقم الهوية", 'img/noun-name-1946973-FFFFFF.png', 3, 1, valio=row["رقم الهوية"])
-            create_input_field_to_edit("تاريخ وجهة الاصدار", 'img/noun-name-1946973-FFFFFF.png', 3, 0, valio=row["تاريخ وجهة الاصدار"])
-            create_input_field_to_edit("صفة المراجعة", 'img/noun-contact-details-6046708-FFFFFF (1).png', 4, 0, valio=row["صفة المراجعة"], colspan=3)
-            create_input_field_to_edit("جهة المراجعة", 'img/noun-name-card-1906376-FFFFFF.png', 5, 0, valio=row["جهة المراجعة"], colspan=3)
-            
-            icon = ImageTk.PhotoImage(Image.open('img/noun-6560269-FFFFFF.png'))
-            button = ctk.CTkButton(master=main_frame, width=227, height=64, corner_radius=30, fg_color="#44689D", image=icon, compound="left", text='',command=data_edits)
-            button.grid(row=6, column=1, columnspan=3, padx=68, pady=27.5, sticky="ew")
+            create_input_field_to_edit("الأسم", 'img/الأسم.png', 3, 1, valio=row['الأسم'])
+            create_input_field_to_edit("الوظيفة", 'img/الوضيفه.png', 3, 0, valio=row['الوظيفة'])
+            create_input_field_to_edit("رقم الهوية", 'img/الرقم.png', 4, 1, valio=row["رقم الهوية"])
+            create_input_field_to_edit("تاريخ وجهة الاصدار", 'img/الرقم.png', 4, 0, valio=row["تاريخ وجهة الاصدار"])
+            create_input_field_to_edit("صفة المراجعة", 'img/صفه.png', 5, 0, valio=row["صفة المراجعة"], colspan=3)
+            create_input_field_to_edit("جهة المراجعة", 'img/جهة.png', 6, 0, valio=row["جهة المراجعة"], colspan=3)
+
 
             
         elif len(results) > 1:
@@ -335,14 +371,11 @@ def create_responsive_gui():
     tab1_button = ctk.CTkButton(tab_frame, text="الاستعلامات", command=lambda: show_tab("الاستعلامات"))
     tab1_button.pack(pady=10, padx=10)
 
-    tab2_button = ctk.CTkButton(tab_frame, text="البحث", command=lambda: show_tab("البحث"))
+    tab2_button = ctk.CTkButton(tab_frame, text="التعديل و البحث", command=lambda: show_tab("التعديل"))
     tab2_button.pack(pady=10, padx=10)
 
-    tab3_button = ctk.CTkButton(tab_frame, text="التعديل", command=lambda: show_tab("التعديل"))
+    tab3_button = ctk.CTkButton(tab_frame, text="البيانات", command=lambda: show_tab("البيانات"))
     tab3_button.pack(pady=10, padx=10)
-
-    tab4_button = ctk.CTkButton(tab_frame, text="البيانات", command=lambda: show_tab("البيانات"))
-    tab4_button.pack(pady=10, padx=10)
 
     # Show the first tab by default
     show_tab("الاستعلامات")

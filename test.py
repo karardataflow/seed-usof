@@ -1,65 +1,65 @@
 import pdfkit
+import os
 
-# Set the path to wkhtmltopdf
-config = pdfkit.configuration(wkhtmltopdf=r'C:\Users\rf\Desktop\wkhtmltopdf\bin\wkhtmltopdf.exe')
+class PDFGenerator:
+    def __init__(self, config_path):
+        # إعداد مسار wkhtmltopdf
+        self.config = pdfkit.configuration(wkhtmltopdf=config_path)
 
-# Reviewer data
-reviewer_name = 'أحمد علي'
-profession = 'مراجع مالي'
-id_number = '123456'
-issue_date = '2024-11-01'
-issue_place = 'بغداد'
-review_status = 'مكتملة'
-reviewing_entity = 'وزارة المالية'
-birth_date = '1990-05-15'  # تاريخ الميلاد
-address = 'شارع 123، بغداد'  # العنوان
-phone_number = '07123456789'  # رقم الهاتف
-email = 'ahmed.ali@example.com'  # البريد الإلكتروني
+    def generate_pdf(self, file_name, reviewer_data, open_pdf=False):
+        # محتوى HTML باستخدام البيانات المدخلة
+        html_content = f"""
+        <!DOCTYPE html>
+        <html lang="ar">
+        <head>
+            <meta charset="UTF-8">
+            <title>بيانات المراجع</title>
+            <style>
+                body {{
+                    font-family: 'Arial', sans-serif;
+                    direction: rtl;
+                }}
+            </style>
+        </head>
+        <body>
+            <h1>معلومات المراجع</h1>
+            <p>الأسم: {reviewer_data['الأسم']}</p>
+            <p>الوظيفة: {reviewer_data['الوظيفة']}</p>
+            <p>رقم الهوية: {reviewer_data['رقم الهوية']}</p>
+            <p>تاريخ وجهة الاصدار: {reviewer_data['تاريخ وجهة الاصدار']}</p>
+            <p>صفة المراجعة: {reviewer_data['صفة المراجعة']}</p>
+            <p>جهة المراجعة: {reviewer_data['جهة المراجعة']}</p>
+            <p>وقت الحفظ: {reviewer_data['وقت الحفظ']}</p>
+            <p>البحث: {reviewer_data['البحث']}</p>
+        </body>
+        </html>
+        """
 
-# Set up HTML content
-html_content = f"""
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>بيانات المراجع</title>
-    <style>
-        body {{
-            font-family: 'Arial', sans-serif;
-            direction: rtl;
-        }}
-    </style>
-</head>
-<body>
-    <h1>معلومات المراجع</h1>
-    <p>اسم المراجع: {reviewer_name}</p>
-    <p>المهنة: {profession}</p>
-    <p>رقم الهوية: {id_number}</p>
-    <p>تاريخ الإصدار: {issue_date}</p>
-    <p>مكان الإصدار: {issue_place}</p>
-    <p>حالة المراجعة: {review_status}</p>
-    <p>الجهة المراجعة: {reviewing_entity}</p>
-    <p>تاريخ الميلاد: {birth_date}</p>
-    <p>العنوان: {address}</p>
-    <p>رقم الهاتف: {phone_number}</p>
-    <p>البريد الإلكتروني: {email}</p>
-</body>
-</html>
-"""
+        # خيارات إنشاء PDF
+        options = {
+            'no-stop-slow-scripts': '',
+            'debug-javascript': '',
+            'disable-smart-shrinking': '',
+            'enable-local-file-access': '',
+            'zoom': '1.3',
+            'disable-javascript': '',
+        }
 
-# PDF options
-options = {
-    'no-stop-slow-scripts': '',
-    'debug-javascript': '',
-    'disable-smart-shrinking': '',
-    'enable-local-file-access': '',
-    'zoom': '1.3',
-    'disable-javascript': '',
-}
+        # توليد PDF
+        try:
+            pdfkit.from_string(html_content, file_name, configuration=self.config, options=options)
+            print("PDF created successfully.")
+            
+            # فتح PDF تلقائيًا إذا تم تحديد ذلك
+            if open_pdf:
+                self.open_pdf(file_name)
+        except Exception as e:
+            print("An error occurred while creating the PDF:", e)
 
-# Generate PDF from HTML content
-try:
-    pdfkit.from_string(html_content, 'reviewer_data.pdf', configuration=config, options=options)
-    print("PDF created successfully.")
-except Exception as e:
-    print("An error occurred while creating the PDF:", e)
+    @staticmethod
+    def open_pdf(file_name):
+        # فتح ملف PDF تلقائيًا
+        os.startfile(file_name)  # يعمل على Windows فقط
+        # إذا كنت تستخدم نظام Linux أو macOS، استخدم:
+        # os.system(f'xdg-open {file_name}')  # على Linux
+        # os.system(f'open {file_name}')      # على macOS
